@@ -1,6 +1,7 @@
 package ir.maktabsharif.jpa.domains.base;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -18,6 +19,8 @@ public class BaseDomain<ID extends Number> implements Serializable {
     public static final String ID_COLUMN = "id";
 
     @Id
+    @GeneratedValue
     @Column(name = ID_COLUMN)
     private ID id;
+
 }
