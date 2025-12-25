@@ -5,13 +5,15 @@
              version="3.2">
     <persistence-unit name="default">
 
+        <class>ir.maktabsharif.jpa.domains.User</class>
+
         <properties>
             <property name="jakarta.persistence.jdbc.url"
                       value="jdbc:postgresql://localhost:5432/postgres?currentSchema=mk_138_jpa"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
             <property name="jakarta.persistence.jdbc.password" value="123456789"/>
 
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.show_sql" value="true"/>
             <!--          <property name="hibernate.format_sql" value="true"/>-->
 

@@ -1,5 +1,6 @@
 package ir.maktabsharif.jpa;
 
+import ir.maktabsharif.jpa.domains.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
