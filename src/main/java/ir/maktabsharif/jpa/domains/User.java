@@ -1,8 +1,8 @@
 package ir.maktabsharif.jpa.domains;
 
+import ir.maktabsharif.jpa.domains.base.BaseDomain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,20 +13,15 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class User {
+public class User extends BaseDomain<Long> {
 
     public static final String TABLE_NAME = "users";
-    public static final String ID_COLUMN = "id";
     public static final String FIRST_NAME_COLUMN = "first_name";
     public static final String LAST_NAME_COLUMN = "last_name";
     public static final String USERNAME_COLUMN = "username";
     public static final String DESCRIPTION_COLUMN = "description";
     public static final String MY_TEXT_COLUMN = "my_text";
     public static final String IS_ACTIVE_COLUMN = "is_active";
-
-    @Id
-    @Column(name = ID_COLUMN)
-    private Long id;
 
     @Column(name = FIRST_NAME_COLUMN, comment = "فامیلی")
     private String firstName;
