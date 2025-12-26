@@ -3,7 +3,6 @@ package ir.maktabsharif.jpa;
 import ir.maktabsharif.jpa.domains.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
 public class JpaApplication {
@@ -13,17 +12,12 @@ public class JpaApplication {
 
             try (EntityManager entityManager = emf.createEntityManager()) {
 
-                EntityTransaction transaction = entityManager.getTransaction();
-                transaction.begin();
+                User user = entityManager.find(User.class, 2L);
 
-                User user = new User();
-                user.setUsername("mat");
-
-                entityManager.persist(user);
-
-                user.setFirstName("mohsen");
-
-                transaction.commit();
+                System.out.println("before detach: " + entityManager.contains(user));
+                entityManager.detach(user);
+                System.out.println("after detach: " + entityManager.contains(user));
+                user.setUsername("asgari@");
 
             }
 
