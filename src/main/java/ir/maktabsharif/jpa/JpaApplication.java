@@ -1,5 +1,6 @@
 package ir.maktabsharif.jpa;
 
+import ir.maktabsharif.jpa.domains.Grade;
 import ir.maktabsharif.jpa.domains.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -10,19 +11,16 @@ public class JpaApplication {
     static void main() {
         try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("default")) {
 
-            try (EntityManager entityManager = emf.createEntityManager()) {
+            try (EntityManager em = emf.createEntityManager()) {
 
-                entityManager.getTransaction().begin();
+                em.getTransaction().begin();
 
                 User u = new User();
-                u.setUsername("444");
+                u.setUsername("mat");
+                u.setGrade(Grade.F);
+                em.persist(u);
 
-                u = entityManager.merge(u);
-
-                u.setUsername(u.getUsername() + "*");
-
-                entityManager.getTransaction().commit();
-
+                em.getTransaction().commit();
 
             }
 
