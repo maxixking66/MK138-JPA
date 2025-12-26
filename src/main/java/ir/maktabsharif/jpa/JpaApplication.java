@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class JpaApplication {
 
     static void main() {
@@ -12,13 +14,27 @@ public class JpaApplication {
 
             try (EntityManager entityManager = emf.createEntityManager()) {
 
-                User user = entityManager.find(User.class, 2L);
+                entityManager.getTransaction().begin();
 
-                System.out.println("before detach: " + entityManager.contains(user));
-                entityManager.detach(user);
-                System.out.println("after detach: " + entityManager.contains(user));
-                user.setUsername("asgari@");
+                List<User> userList = entityManager.createQuery(
+                        "select u from User u", User.class
+                ).getResultList();
 
+//                userList.forEach(
+//                        user -> System.out.println(user.getId() + " contains in em: " + entityManager.contains(user))
+//                );
+
+                userList.forEach(
+                        user -> {
+                            if (user.getId() % 2 != 0) {
+                                user.setUsername(
+                                        user.getUsername() + "*"
+                                );
+                            }
+                        }
+                );
+
+                entityManager.getTransaction().commit();
             }
 
         }
