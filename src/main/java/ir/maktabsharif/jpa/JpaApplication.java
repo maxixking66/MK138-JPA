@@ -11,6 +11,8 @@ public class JpaApplication {
 
             try (EntityManager em = emf.createEntityManager()) {
 
+//                User user = em.find(User.class, 1L);
+//                System.out.println(user.getMobileNumbers());
 
             }
 
