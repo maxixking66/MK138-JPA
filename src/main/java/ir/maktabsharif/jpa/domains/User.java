@@ -46,6 +46,7 @@ public class User extends BaseDomain<Long> {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @OneToOne()
+    @OneToOne
+//    @OneToOne(mappedBy = "user")
     private Wallet wallet;
 }
