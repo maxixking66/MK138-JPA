@@ -4,8 +4,7 @@ import ir.maktabsharif.jpa.domains.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-
-import java.util.List;
+import jakarta.persistence.TypedQuery;
 
 public class JpaApplication {
 
@@ -14,29 +13,25 @@ public class JpaApplication {
 
             try (EntityManager entityManager = emf.createEntityManager()) {
 
-                entityManager.getTransaction().begin();
+                findUserByUsername(entityManager, "mat");
+                findUserByUsername(entityManager, "2");
+                findUserByUsername(entityManager, "3");
 
-                List<User> userList = entityManager.createQuery(
-                        "select u from User u", User.class
-                ).getResultList();
-
-//                userList.forEach(
-//                        user -> System.out.println(user.getId() + " contains in em: " + entityManager.contains(user))
-//                );
-
-                userList.forEach(
-                        user -> {
-                            if (user.getId() % 2 != 0) {
-                                user.setUsername(
-                                        user.getUsername() + "*"
-                                );
-                            }
-                        }
-                );
-
-                entityManager.getTransaction().commit();
             }
 
         }
+    }
+
+    public static void findUserByUsername(EntityManager entityManager, String username) {
+
+        TypedQuery<User> typedQuery = entityManager.createQuery(
+                "from User u where u.username = ?1",
+                User.class
+        );
+        typedQuery.setParameter(1, username);
+        System.out.println(
+                typedQuery.getSingleResultOrNull()
+        );
+
     }
 }

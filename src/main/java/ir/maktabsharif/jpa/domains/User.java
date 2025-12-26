@@ -7,12 +7,14 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = User.TABLE_NAME)
 @Setter
 @Getter
 @NoArgsConstructor
+@ToString
 public class User extends BaseDomain<Long> {
 
     public static final String TABLE_NAME = "users";
