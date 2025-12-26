@@ -4,7 +4,6 @@ import ir.maktabsharif.jpa.domains.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
 
 public class JpaApplication {
 
@@ -23,14 +22,13 @@ public class JpaApplication {
     }
 
     public static void findUserByUsername(EntityManager entityManager, String username) {
-
-        TypedQuery<User> typedQuery = entityManager.createQuery(
-                "from User u where u.username = ?1",
-                User.class
-        );
-        typedQuery.setParameter(1, username);
         System.out.println(
-                typedQuery.getSingleResultOrNull()
+                entityManager.createQuery(
+                                "from User u where u.username = :username",
+                                User.class
+                        )
+                        .setParameter("username", username)
+                        .getSingleResultOrNull()
         );
 
     }
