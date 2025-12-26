@@ -12,24 +12,17 @@ public class JpaApplication {
 
             try (EntityManager entityManager = emf.createEntityManager()) {
 
-                findUserByUsername(entityManager, "mat");
-                findUserByUsername(entityManager, "2");
-                findUserByUsername(entityManager, "3");
+                entityManager.getTransaction().begin();
+
+                User user = entityManager.find(User.class, 56L);
+
+                entityManager.remove(user);
+
+                entityManager.getTransaction().commit();
+
 
             }
 
         }
-    }
-
-    public static void findUserByUsername(EntityManager entityManager, String username) {
-        System.out.println(
-                entityManager.createQuery(
-                                "from User u where u.username = :username",
-                                User.class
-                        )
-                        .setParameter("username", username)
-                        .getSingleResultOrNull()
-        );
-
     }
 }
