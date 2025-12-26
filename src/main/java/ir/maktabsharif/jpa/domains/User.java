@@ -46,7 +46,8 @@ public class User extends BaseDomain<Long> {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @OneToOne
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "w_id")
 //    @OneToOne(mappedBy = "user")
-    private Wallet wallet;
+//    private Wallet wallet;
 }

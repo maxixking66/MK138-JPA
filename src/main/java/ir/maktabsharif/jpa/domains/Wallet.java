@@ -1,10 +1,7 @@
 package ir.maktabsharif.jpa.domains;
 
 import ir.maktabsharif.jpa.domains.base.BaseDomain;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +23,8 @@ public class Wallet extends BaseDomain<Long> {
     @Column(name = CREDIT_COLUMN, nullable = false)
     private Long credit = 0L;
 
-    //    @OneToOne
-    @OneToOne(mappedBy = "wallet")
+
+    @ManyToOne
+    @JoinColumn(name = "user_username", referencedColumnName = User.USERNAME_COLUMN)
     private User user;
 }
