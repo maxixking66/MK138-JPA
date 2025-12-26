@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Entity
 @Table(name = User.TABLE_NAME)
 @Setter
@@ -46,8 +48,8 @@ public class User extends BaseDomain<Long> {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "w_id")
-//    @OneToOne(mappedBy = "user")
-//    private Wallet wallet;
+    @OneToMany
+    @JoinColumn(name = "u_id")
+    private Set<Wallet> wallets;
+
 }
