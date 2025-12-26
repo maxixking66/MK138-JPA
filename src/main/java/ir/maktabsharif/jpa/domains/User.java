@@ -35,7 +35,7 @@ public class User extends BaseDomain<Long> {
     @Column(name = DESCRIPTION_COLUMN, columnDefinition = "VARCHAR")
     private String description;
 
-    @Column(name = MY_TEXT_COLUMN, columnDefinition = "TEXT not null unique")
+    @Column(name = MY_TEXT_COLUMN)
     private String myText;
 
     @Column(name = IS_ACTIVE_COLUMN)
