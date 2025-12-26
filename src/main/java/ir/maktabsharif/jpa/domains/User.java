@@ -48,8 +48,8 @@ public class User extends BaseDomain<Long> {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @OneToMany
-    @JoinColumn(name = "u_id")
+    @ManyToMany
+    @JoinTable(name = "u_w_s")
     private Set<Wallet> wallets;
 
 }
