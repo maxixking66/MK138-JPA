@@ -45,4 +45,13 @@ public class User extends BaseDomain<Long> {
     @Column(name = GRADE_COLUMN)
     @Enumerated(EnumType.STRING)
     private Grade grade;
+
+    @Embedded
+    @AttributeOverrides(
+            value = {
+                    @AttributeOverride(name = "address", column = @Column(columnDefinition = "varchar")),
+                    @AttributeOverride(name = "postalCode", column = @Column(name = "custom_postal_code"))
+            }
+    )
+    private EmbeddedAddress address;
 }
