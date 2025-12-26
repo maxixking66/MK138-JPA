@@ -14,9 +14,12 @@ public class JpaApplication {
 
                 entityManager.getTransaction().begin();
 
-                User user = entityManager.find(User.class, 56L);
+                User u = new User();
+                u.setUsername("444");
 
-                entityManager.remove(user);
+                u = entityManager.merge(u);
+
+                u.setUsername(u.getUsername() + "*");
 
                 entityManager.getTransaction().commit();
 
