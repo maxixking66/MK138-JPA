@@ -7,6 +7,8 @@
 
         <class>ir.maktabsharif.jpa.domains.User</class>
         <class>ir.maktabsharif.jpa.domains.Wallet</class>
+        <class>ir.maktabsharif.jpa.domains.Role</class>
+        <class>ir.maktabsharif.jpa.domains.Authority</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.url"

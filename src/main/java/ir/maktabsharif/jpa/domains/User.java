@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = User.TABLE_NAME)
 @Setter
@@ -61,4 +64,7 @@ public class User extends BaseDomain<Long> {
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 //    @OneToOne(cascade = CascadeType.ALL)
     private Wallet wallet;
+
+    @ManyToMany
+    private Set<Role> roles = new HashSet<>();
 }
