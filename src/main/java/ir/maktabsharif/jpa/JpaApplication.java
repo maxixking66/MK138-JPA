@@ -1,15 +1,14 @@
 package ir.maktabsharif.jpa;
 
-import ir.maktabsharif.jpa.constants.AuthorityNames;
-import ir.maktabsharif.jpa.domains.Authority;
 import ir.maktabsharif.jpa.domains.User;
-import ir.maktabsharif.jpa.repositories.Pageable;
+import ir.maktabsharif.jpa.domains.base.BaseDomain_;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-
-import java.util.List;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 public class JpaApplication {
 
@@ -18,77 +17,38 @@ public class JpaApplication {
 
             try (EntityManager em = emf.createEntityManager()) {
 
-                initAuthorities(em);
+//                select u from User u
+//                from User
+//                em.createQuery("user User", User.class);
+//                em.createQuery("select count(*) user User", Long.class);
+//                em.createQuery("select count(*) user Wallet", Long.class);
 
-//                findAllUsers(
-//                        em, Pageable.defaultPage()
+//                select u from User u where u.firstName = 'x'
+                CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+                CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
+                Root<User> userRoot = query.from(User.class);
+
+//                where u.firstName like '%m%'
+//                query.where(
+//                        criteriaBuilder.like(
+//                                userRoot.get(User_.firstName),
+//                                "%" + "m" + "%"
+//                        )
 //                );
 
-                findAllUsers(
-                        em,
-                        new Pageable() {
-                            @Override
-                            public int size() {
-                                return 2;
-                            }
-
-                            @Override
-                            public int page() {
-                                return 2;
-                            }
-                        }
+//                u.id >= 5
+                query.where(
+                        criteriaBuilder.greaterThanOrEqualTo(
+                                userRoot.get(BaseDomain_.ID),
+                                5L
+                        )
                 );
 
+                TypedQuery<User> typedQuery = em.createQuery(query);
+                System.out.println(typedQuery.getResultList().size());
 
-//                TypedQuery<User> typedQuery = em.createQuery("from User u", User.class);
-//                EntityGraph<?> userWalletGraph = em.getEntityGraph(User.USER_ROLES_AUTHORITIES_GRAPH);
-//                typedQuery.setHint(
-//                        "jakarta.persistence.fetchgraph",
-////                "jakarta.persistence.loadgraph",
-//                        userWalletGraph
-//                );
-
-//                List<User> users = typedQuery.getResultList();
-//
-//                System.out.println(users.size());
             }
 
         }
-    }
-
-    private static void initAuthorities(EntityManager em) {
-        AuthorityNames.ALL_AUTHORITIES
-                .forEach(auth -> {
-                    TypedQuery<Long> query = em.createQuery("select count(*) from Authority a where a.name = :authName", Long.class);
-                    query.setParameter("authName", auth);
-                    Long count = query.getSingleResult();
-                    if (count == 0) {
-                        em.getTransaction().begin();
-                        Authority authority = new Authority();
-                        authority.setName(auth);
-                        em.persist(authority);
-                        em.getTransaction().commit();
-                    }
-                });
-    }
-
-    private static void findAllUsers(EntityManager em, Pageable pageable) {
-        TypedQuery<Long> typedQuery = em.createQuery("select u.id from User u order by u.id desc", Long.class);
-        typedQuery.setFirstResult(pageable.offset());
-        typedQuery.setMaxResults(pageable.size());
-
-        List<Long> userIds = typedQuery.getResultList();
-
-        TypedQuery<User> userTypedQuery = em.createQuery("from User u where u.id in :ids order by u.id desc", User.class)
-                .setParameter("ids", userIds);
-
-        userTypedQuery.setHint(
-                "jakarta.persistence.fetchgraph",
-                em.getEntityGraph(User.USER_ROLES_AUTHORITIES_GRAPH)
-        );
-
-        List<User> users = userTypedQuery.getResultList();
-
-        users.forEach(user -> System.out.println(user.getId()));
     }
 }
