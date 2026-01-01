@@ -2,7 +2,6 @@ package ir.maktabsharif.jpa;
 
 import ir.maktabsharif.jpa.constants.AuthorityNames;
 import ir.maktabsharif.jpa.domains.Authority;
-import ir.maktabsharif.jpa.domains.Role;
 import ir.maktabsharif.jpa.domains.User;
 import ir.maktabsharif.jpa.repositories.Pageable;
 import jakarta.persistence.EntityManager;
@@ -20,19 +19,6 @@ public class JpaApplication {
             try (EntityManager em = emf.createEntityManager()) {
 
                 initAuthorities(em);
-
-                em.getTransaction().begin();
-
-                Role role = new Role();
-                role.setName("مدیر");
-                em.persist(role);
-
-                role = new Role();
-                role.setName("دبیر");
-                em.persist(role);
-
-
-                em.getTransaction().commit();
 
 //                findAllUsers(
 //                        em, Pageable.defaultPage()
@@ -87,16 +73,21 @@ public class JpaApplication {
     }
 
     private static void findAllUsers(EntityManager em, Pageable pageable) {
-        TypedQuery<User> typedQuery = em.createQuery("from User u order by u.id desc", User.class);
+        TypedQuery<Long> typedQuery = em.createQuery("select u.id from User u order by u.id desc", Long.class);
         typedQuery.setFirstResult(pageable.offset());
         typedQuery.setMaxResults(pageable.size());
 
-        typedQuery.setHint(
+        List<Long> userIds = typedQuery.getResultList();
+
+        TypedQuery<User> userTypedQuery = em.createQuery("from User u where u.id in :ids order by u.id desc", User.class)
+                .setParameter("ids", userIds);
+
+        userTypedQuery.setHint(
                 "jakarta.persistence.fetchgraph",
                 em.getEntityGraph(User.USER_ROLES_AUTHORITIES_GRAPH)
         );
 
-        List<User> users = typedQuery.getResultList();
+        List<User> users = userTypedQuery.getResultList();
 
         users.forEach(user -> System.out.println(user.getId()));
     }
