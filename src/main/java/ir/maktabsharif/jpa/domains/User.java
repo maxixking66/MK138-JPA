@@ -23,12 +23,32 @@ import java.util.Set;
                         attributeNodes = {
                                 @NamedAttributeNode(value = "wallet")
                         }
-                )
+                ),
+                @NamedEntityGraph(
+                        name = User.USER_ROLES_GRAPH,
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "roles")
+                        }
+                ),
+                @NamedEntityGraph(
+                        name = User.USER_ROLES_AUTHORITIES_GRAPH,
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "roles", subgraph = "roles_subgraph"),
+                        },
+                        subgraphs = {
+                                @NamedSubgraph(
+                                        name = "roles_subgraph",
+                                        attributeNodes = @NamedAttributeNode(value = "authorities")
+                                )
+                        }
+                ),
         }
 )
 public class User extends BaseDomain<Long> {
 
     public static final String USER_WALLET_GRAPH = "USER_WALLET_GRAPH";
+    public static final String USER_ROLES_GRAPH = "USER_ROLES_GRAPH";
+    public static final String USER_ROLES_AUTHORITIES_GRAPH = "USER_ROLES_AUTHORITIES_GRAPH";
 
     public static final String TABLE_NAME = "users";
     public static final String FIRST_NAME_COLUMN = "first_name";

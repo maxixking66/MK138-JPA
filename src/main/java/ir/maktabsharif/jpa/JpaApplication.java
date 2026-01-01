@@ -15,7 +15,7 @@ public class JpaApplication {
 //                TypedQuery<User> typedQuery = em.createQuery("from User u join fetch u.wallet", User.class);
                 TypedQuery<User> typedQuery = em.createQuery("from User u", User.class);
 
-                EntityGraph<?> userWalletGraph = em.getEntityGraph(User.USER_WALLET_GRAPH);
+                EntityGraph<?> userWalletGraph = em.getEntityGraph(User.USER_ROLES_AUTHORITIES_GRAPH);
                 typedQuery.setHint(
                         "jakarta.persistence.fetchgraph",
 //                "jakarta.persistence.loadgraph",
@@ -25,8 +25,6 @@ public class JpaApplication {
                 List<User> users = typedQuery.getResultList();
 
                 System.out.println(users.size());
-
-                users.forEach(user -> System.out.println(user.getWallet().getCredit()));
             }
 
         }
