@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table(name = User.TABLE_NAME)
 @Setter
@@ -33,7 +30,7 @@ public class User extends BaseDomain<Long> {
     @Column(name = LAST_NAME_COLUMN, comment = "this is lastName col")
     private String lastName;
 
-    @Column(name = USERNAME_COLUMN, nullable = false, unique = true, length = 2048)
+    @Column(name = USERNAME_COLUMN, unique = true, length = 2048)
     private String username;
 
     @Column(name = DESCRIPTION_COLUMN, columnDefinition = "VARCHAR")
@@ -49,14 +46,7 @@ public class User extends BaseDomain<Long> {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @ManyToMany
-    @JoinTable(name = "u_w_s")
-    private Set<Wallet> wallets;
-
-    @ElementCollection
-    private Set<String> mobileNumbers = new HashSet<>();
-
-    @ElementCollection
-    @CollectionTable(name = "u_e_a", joinColumns = @JoinColumn(name = "u_id"))
-    private Set<EmbeddedAddress> embeddedAddresses = new HashSet<>();
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @OneToOne(cascade = CascadeType.ALL)
+    private Wallet wallet;
 }
