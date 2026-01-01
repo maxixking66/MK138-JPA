@@ -87,4 +87,7 @@ public class User extends BaseDomain<Long> {
 
     @ManyToMany
     private Set<Role> roles = new HashSet<>();
+
+    @Transient
+    private String transientField;
 }
