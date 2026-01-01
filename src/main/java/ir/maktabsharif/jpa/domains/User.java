@@ -60,6 +60,7 @@ public class User extends BaseDomain<Long> {
     public static final String GRADE_COLUMN = "grade";
 
     @Column(name = FIRST_NAME_COLUMN, comment = "فامیلی")
+    @Basic(fetch = FetchType.EAGER)
     private String firstName;
 
     @Column(name = LAST_NAME_COLUMN, comment = "this is lastName col")
