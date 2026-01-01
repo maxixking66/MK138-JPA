@@ -1,9 +1,7 @@
 package ir.maktabsharif.jpa;
 
 import ir.maktabsharif.jpa.domains.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -14,9 +12,19 @@ public class JpaApplication {
 
             try (EntityManager em = emf.createEntityManager()) {
 
+//                TypedQuery<User> typedQuery = em.createQuery("from User u join fetch u.wallet", User.class);
+                TypedQuery<User> typedQuery = em.createQuery("from User u", User.class);
 
-                List<User> users = em.createQuery("from User u join fetch u.wallet", User.class)
-                        .getResultList();
+                EntityGraph<User> userWalletGraph = em.createEntityGraph(User.class);
+                userWalletGraph.addAttributeNode("wallet");
+
+                typedQuery.setHint(
+                        "jakarta.persistence.fetchgraph",
+//                "jakarta.persistence.loadgraph",
+                        userWalletGraph
+                );
+
+                List<User> users = typedQuery.getResultList();
 
                 System.out.println(users.size());
 
