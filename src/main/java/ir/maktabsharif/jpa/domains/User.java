@@ -13,7 +13,19 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
+@NamedEntityGraphs(
+        value = {
+                @NamedEntityGraph(
+                        name = User.USER_WALLET_GRAPH,
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "wallet")
+                        }
+                )
+        }
+)
 public class User extends BaseDomain<Long> {
+
+    public static final String USER_WALLET_GRAPH = "USER_WALLET_GRAPH";
 
     public static final String TABLE_NAME = "users";
     public static final String FIRST_NAME_COLUMN = "first_name";
