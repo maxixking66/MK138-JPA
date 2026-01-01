@@ -46,7 +46,7 @@ public class User extends BaseDomain<Long> {
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 //    @OneToOne(cascade = CascadeType.ALL)
     private Wallet wallet;
 }
