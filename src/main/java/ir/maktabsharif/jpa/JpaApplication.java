@@ -11,8 +11,8 @@ public class JpaApplication {
         UserRepository userRepository = ApplicationContext.getInstance().getUserRepository();
 
         User user = userRepository.findById(52L);
-        user.setIsActive(false);
-        user.setLastName("ASGARI");
+        user.setIsActive(true);
+        user.setLastName("Asgari");
         userRepository.save(user);
 
     }
