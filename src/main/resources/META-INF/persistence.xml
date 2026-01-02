@@ -9,6 +9,7 @@
         <class>ir.maktabsharif.jpa.domains.Wallet</class>
         <class>ir.maktabsharif.jpa.domains.Role</class>
         <class>ir.maktabsharif.jpa.domains.Authority</class>
+        <class>ir.maktabsharif.jpa.domains.Customer</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.url"
@@ -16,7 +17,7 @@
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
             <property name="jakarta.persistence.jdbc.password" value="123456789"/>
 
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.show_sql" value="true"/>
             <!--          <property name="hibernate.format_sql" value="true"/>-->
 

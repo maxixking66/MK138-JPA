@@ -1,5 +1,6 @@
 package ir.maktabsharif.jpa;
 
+import ir.maktabsharif.jpa.domains.Customer;
 import ir.maktabsharif.jpa.domains.User;
 import ir.maktabsharif.jpa.repositories.UserRepository;
 import ir.maktabsharif.jpa.util.ApplicationContext;
@@ -10,10 +11,9 @@ public class JpaApplication {
 
         UserRepository userRepository = ApplicationContext.getInstance().getUserRepository();
 
-        User user = userRepository.findById(52L);
-        user.setIsActive(true);
-        user.setLastName("Asgarii");
-        userRepository.save(user);
+        userRepository.save(new User());
+
+        ApplicationContext.getInstance().getCustomerRepository().save(new Customer());
 
     }
 }

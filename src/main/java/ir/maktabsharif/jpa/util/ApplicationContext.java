@@ -1,5 +1,7 @@
 package ir.maktabsharif.jpa.util;
 
+import ir.maktabsharif.jpa.repositories.CustomerRepository;
+import ir.maktabsharif.jpa.repositories.CustomerRepositoryImpl;
 import ir.maktabsharif.jpa.repositories.UserRepository;
 import ir.maktabsharif.jpa.repositories.UserRepositoryImpl;
 import jakarta.persistence.EntityManager;
@@ -17,6 +19,8 @@ public class ApplicationContext {
     private EntityManager entityManager;
 
     private UserRepository userRepository;
+
+    private CustomerRepository customerRepository;
 
     public static ApplicationContext getInstance() {
         if (context == null) {
@@ -44,5 +48,12 @@ public class ApplicationContext {
             userRepository = new UserRepositoryImpl(getEntityManager());
         }
         return userRepository;
+    }
+
+    public CustomerRepository getCustomerRepository() {
+        if (Objects.isNull(customerRepository)) {
+            customerRepository = new CustomerRepositoryImpl(getEntityManager());
+        }
+        return customerRepository;
     }
 }

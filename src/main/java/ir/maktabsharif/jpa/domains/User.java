@@ -46,6 +46,8 @@ import java.util.Set;
         }
 )
 @EntityListeners(value = UsersEntityListener.class)
+@DiscriminatorColumn(name = "my_custom_name")
+@DiscriminatorValue(value = "u")
 public class User extends BaseDomain<Long> {
 
     public static final String USER_WALLET_GRAPH = "USER_WALLET_GRAPH";
