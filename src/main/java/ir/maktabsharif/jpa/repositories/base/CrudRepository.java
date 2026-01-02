@@ -19,4 +19,6 @@ public interface CrudRepository<T extends BaseDomain<ID>, ID extends Number> {
     void deleteAll();
 
     void deleteById(ID id);
+
+    void delete(T t);
 }
