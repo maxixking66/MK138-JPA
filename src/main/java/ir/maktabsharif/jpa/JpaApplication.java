@@ -1,5 +1,6 @@
 package ir.maktabsharif.jpa;
 
+import ir.maktabsharif.jpa.domains.User;
 import ir.maktabsharif.jpa.repositories.UserRepository;
 import ir.maktabsharif.jpa.util.ApplicationContext;
 
@@ -9,7 +10,10 @@ public class JpaApplication {
 
         UserRepository userRepository = ApplicationContext.getInstance().getUserRepository();
 
-        System.out.println(userRepository.findByUsername("mat"));
+        User user = userRepository.findById(52L);
+        user.setIsActive(false);
+        user.setLastName("ASGARI");
+        userRepository.save(user);
 
     }
 }
