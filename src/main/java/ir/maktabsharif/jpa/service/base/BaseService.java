@@ -1,11 +1,10 @@
-package ir.maktabsharif.jpa.repositories.base;
+package ir.maktabsharif.jpa.service.base;
 
 import ir.maktabsharif.jpa.domains.base.BaseDomain;
-import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-public interface CrudRepository<T extends BaseDomain<ID>, ID extends Number> {
+public interface BaseService<T extends BaseDomain<ID>, ID extends Number> {
 
     T save(T t);
 
@@ -22,6 +21,4 @@ public interface CrudRepository<T extends BaseDomain<ID>, ID extends Number> {
     void deleteById(ID id);
 
     void delete(T t);
-
-    EntityManager getEntityManager();
 }

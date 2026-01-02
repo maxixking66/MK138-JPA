@@ -104,5 +104,10 @@ public abstract class SimpleCrudRepository<T extends BaseDomain<ID>, ID extends 
 
     }
 
+    @Override
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
     protected abstract Class<T> getEntityClass();
 }
