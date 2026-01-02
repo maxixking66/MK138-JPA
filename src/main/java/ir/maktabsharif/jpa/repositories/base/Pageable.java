@@ -1,4 +1,4 @@
-package ir.maktabsharif.jpa.repositories;
+package ir.maktabsharif.jpa.repositories.base;
 
 public interface Pageable {
 
