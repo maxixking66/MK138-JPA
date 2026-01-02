@@ -12,7 +12,7 @@ public class JpaApplication {
 
         User user = userRepository.findById(52L);
         user.setIsActive(true);
-        user.setLastName("Asgari");
+        user.setLastName("Asgarii");
         userRepository.save(user);
 
     }

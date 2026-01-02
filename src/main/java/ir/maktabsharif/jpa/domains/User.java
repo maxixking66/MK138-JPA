@@ -1,6 +1,7 @@
 package ir.maktabsharif.jpa.domains;
 
 import ir.maktabsharif.jpa.domains.base.BaseDomain;
+import ir.maktabsharif.jpa.util.UsersEntityListener;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,7 @@ import java.util.Set;
                 ),
         }
 )
+@EntityListeners(value = UsersEntityListener.class)
 public class User extends BaseDomain<Long> {
 
     public static final String USER_WALLET_GRAPH = "USER_WALLET_GRAPH";

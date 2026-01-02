@@ -1,8 +1,10 @@
 package ir.maktabsharif.jpa.domains;
 
 import ir.maktabsharif.jpa.domains.base.BaseDomain;
+import ir.maktabsharif.jpa.util.UsersEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@EntityListeners(value = UsersEntityListener.class)
 public class Wallet extends BaseDomain<Long> {
 
     public static final String TABLE_NAME = "wallets";

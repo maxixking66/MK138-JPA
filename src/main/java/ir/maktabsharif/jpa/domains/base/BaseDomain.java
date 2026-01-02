@@ -37,6 +37,7 @@ public class BaseDomain<ID extends Number> implements Serializable {
 
     @PreUpdate
     public void performPreUpdateLogic() {
+        System.out.println("baseDomain preUpdate");
         setLastUpdateDate(ZonedDateTime.now());
     }
 
