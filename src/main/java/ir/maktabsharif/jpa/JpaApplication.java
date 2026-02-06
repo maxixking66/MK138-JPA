@@ -1,19 +1,76 @@
 package ir.maktabsharif.jpa;
 
-import ir.maktabsharif.jpa.domains.Customer;
-import ir.maktabsharif.jpa.domains.User;
-import ir.maktabsharif.jpa.repositories.UserRepository;
-import ir.maktabsharif.jpa.util.ApplicationContext;
-
 public class JpaApplication {
 
-    static void main() {
+    static final Object MONITOR = new Object();
 
-        UserRepository userRepository = ApplicationContext.getInstance().getUserRepository();
+    static void main() throws InterruptedException {
 
-        userRepository.save(new User());
+        Signal signal = new Signal();
 
-        ApplicationContext.getInstance().getCustomerRepository().save(new Customer());
 
+        new Thread(
+                () -> {
+                    try {
+                        signal.doWait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        ).start();
+
+
+        new Thread(
+                () -> {
+                    try {
+                        signal.doWait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        ).start();
+
+        new Thread(
+                () -> {
+                    try {
+                        Thread.sleep(2000);
+                        signal.doNotifyAll();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        ).start();
+
+        System.out.println("end of main");
     }
+
+    static class Signal {
+
+        public void doWait() throws InterruptedException {
+            synchronized (MONITOR) {
+                System.out.printf("Thread %s before wait \n", Thread.currentThread().getName());
+                MONITOR.wait();
+                System.out.printf("Thread %s after wait \n", Thread.currentThread().getName());
+            }
+        }
+
+        public void doNotify() throws InterruptedException {
+            synchronized (MONITOR) {
+                System.out.printf("Thread %s before notify \n", Thread.currentThread().getName());
+                MONITOR.notify();
+                System.out.printf("Thread %s after notify \n", Thread.currentThread().getName());
+
+            }
+        }
+
+        public void doNotifyAll() throws InterruptedException {
+            synchronized (MONITOR) {
+                System.out.printf("Thread %s before notifyAll \n", Thread.currentThread().getName());
+                MONITOR.notifyAll();
+                System.out.printf("Thread %s after notifyAll \n", Thread.currentThread().getName());
+
+            }
+        }
+    }
+
 }
