@@ -1,91 +1,30 @@
 package ir.maktabsharif.jpa;
 
-import ir.maktabsharif.jpa.util.CustomLock;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class JpaApplication {
 
-    static Map<Integer, CustomLock> lockMap = new ConcurrentHashMap<>();
-
-    static void main() throws InterruptedException {
-
-        Thread block = new Thread(
+    static void main() throws InterruptedException, ExecutionException {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        Future<String> submit = executorService.submit(
                 () -> {
+                    System.out.println("start");
                     try {
-                        block(1);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                }, "block"
+                    System.out.println("end");
+                    return "mohsen";
+                }
         );
-
-        Thread unblock = new Thread(
-                () -> {
-                    try {
-                        unblock(1);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }, "unblock"
-        );
-
-        Thread approve = new Thread(
-                () -> {
-                    try {
-                        approve(1);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }, "approve"
-        );
-
-        block.start();
-        unblock.start();
-        approve.start();
-
-
-        block.join();
-        unblock.join();
-        approve.join();
-        System.out.println("end of main");
+        String result = submit.get();
+        System.out.println("end of main with result: " + result);
+        executorService.shutdown();
     }
 
-    static void block(Integer chqId) throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + " start");
-        CustomLock lock = lockMap.computeIfAbsent(chqId, _ -> new CustomLock());
-        try {
-            lock.lock();
-            Thread.sleep(1000);
-            System.out.println("block");
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    static void unblock(Integer chqId) throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + " start");
-        CustomLock lock = lockMap.computeIfAbsent(chqId, _ -> new CustomLock());
-        try {
-            lock.lock();
-            Thread.sleep(1000);
-            System.out.println("unblock");
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    static void approve(Integer chqId) throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + " start");
-        CustomLock lock = lockMap.computeIfAbsent(chqId, _ -> new CustomLock());
-        try {
-            lock.lock();
-            Thread.sleep(1000);
-            System.out.println("approve");
-        } finally {
-            lock.unlock();
-        }
-    }
 
 }
